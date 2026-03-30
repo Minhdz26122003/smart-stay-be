@@ -1,0 +1,11 @@
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\bin\Debug\net9.0\SmartStay.Domain.deps.json
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\bin\Debug\net9.0\SmartStay.Domain.dll
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\bin\Debug\net9.0\SmartStay.Domain.pdb
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\SmartStay.Domain.GeneratedMSBuildEditorConfig.editorconfig
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\SmartStay.Domain.AssemblyInfoInputs.cache
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\SmartStay.Domain.AssemblyInfo.cs
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\SmartStay.Domain.csproj.CoreCompileInputs.cache
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\SmartStay.Domain.dll
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\refint\SmartStay.Domain.dll
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\SmartStay.Domain.pdb
+F:\Documents\BE\dotnet\smart-stay-be\src\SmartStay.Domain\obj\Debug\net9.0\ref\SmartStay.Domain.dll
