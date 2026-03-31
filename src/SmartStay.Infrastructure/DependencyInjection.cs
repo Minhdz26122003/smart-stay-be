@@ -20,9 +20,10 @@ public static class DependencyInjection
         // Database
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(
-                configuration.GetConnectionString("Default"),
+                configuration.GetConnectionString("DefaultConnection"),
                 npgsql => npgsql.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
             )
+             .UseSnakeCaseNamingConvention()
         );
 
         // Repositories & Unit of Work

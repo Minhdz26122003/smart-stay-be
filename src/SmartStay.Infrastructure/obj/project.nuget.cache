@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OiSSJwV8nVM=",
+  "dgSpecHash": "BLm+AQBx5Ys=",
   "success": true,
   "projectFilePath": "F:\\Documents\\BE\\dotnet\\smart-stay-be\\src\\SmartStay.Infrastructure\\SmartStay.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\Minh\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\Minh\\.nuget\\packages\\cloudinarydotnet\\1.26.2\\cloudinarydotnet.1.26.2.nupkg.sha512",
     "C:\\Users\\Minh\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\Minh\\.nuget\\packages\\efcore.namingconventions\\9.0.0\\efcore.namingconventions.9.0.0.nupkg.sha512",
     "C:\\Users\\Minh\\.nuget\\packages\\firebaseadmin\\3.0.0\\firebaseadmin.3.0.0.nupkg.sha512",
     "C:\\Users\\Minh\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
     "C:\\Users\\Minh\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",

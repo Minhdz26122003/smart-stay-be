@@ -44,5 +44,14 @@ public class MappingProfile : Profile
         CreateMap<Invoice, InvoiceDto>();
         CreateMap<CreateInvoiceRequest, Invoice>();
         CreateMap<UpdateInvoiceRequest, Invoice>();
+
+        // ServiceConfig
+        CreateMap<ServiceConfig, SmartStay.Application.DTOs.ServiceConfig.ServiceConfigDto>();
+        CreateMap<SmartStay.Application.DTOs.ServiceConfig.CreateServiceConfigRequest, ServiceConfig>();
+        CreateMap<SmartStay.Application.DTOs.ServiceConfig.UpdateServiceConfigRequest, ServiceConfig>();
+
+        // MeterReading
+        CreateMap<MeterReading, SmartStay.Application.DTOs.MeterReading.MeterReadingDto>();
+        CreateMap<SmartStay.Application.DTOs.MeterReading.CreateMeterReadingRequest, MeterReading>();
     }
 }

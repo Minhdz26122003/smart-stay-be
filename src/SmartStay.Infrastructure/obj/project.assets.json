@@ -77,6 +77,20 @@
           }
         }
       },
+      "EFCore.NamingConventions/9.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[9.0.0, 10.0.0)",
+          "Microsoft.EntityFrameworkCore.Relational": "[9.0.0, 10.0.0)",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
+        },
+        "compile": {
+          "lib/net8.0/EFCore.NamingConventions.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/EFCore.NamingConventions.dll": {}
+        }
+      },
       "FirebaseAdmin/3.0.0": {
         "type": "package",
         "dependencies": {
@@ -2437,6 +2451,18 @@
         "lib/net5.0/Dapper.xml",
         "lib/netstandard2.0/Dapper.dll",
         "lib/netstandard2.0/Dapper.xml"
+      ]
+    },
+    "EFCore.NamingConventions/9.0.0": {
+      "sha512": "heKIYzPdEWx+Ba4xuG6jfEssW9rEi7I0lX38eoN7wo7qgg9uw7nn8UEmDQfwGEYPzSDpetCVANnDr5tqt2Asjg==",
+      "type": "package",
+      "path": "efcore.namingconventions/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "efcore.namingconventions.9.0.0.nupkg.sha512",
+        "efcore.namingconventions.nuspec",
+        "lib/net8.0/EFCore.NamingConventions.dll"
       ]
     },
     "FirebaseAdmin/3.0.0": {
@@ -7211,6 +7237,7 @@
     "net9.0": [
       "BCrypt.Net-Next >= 4.0.3",
       "CloudinaryDotNet >= 1.26.2",
+      "EFCore.NamingConventions >= 9.0.0",
       "FirebaseAdmin >= 3.0.0",
       "Hangfire.AspNetCore >= 1.8.14",
       "Hangfire.PostgreSql >= 1.20.10",
@@ -7279,6 +7306,10 @@
           "CloudinaryDotNet": {
             "target": "Package",
             "version": "[1.26.2, )"
+          },
+          "EFCore.NamingConventions": {
+            "target": "Package",
+            "version": "[9.0.0, )"
           },
           "FirebaseAdmin": {
             "target": "Package",
