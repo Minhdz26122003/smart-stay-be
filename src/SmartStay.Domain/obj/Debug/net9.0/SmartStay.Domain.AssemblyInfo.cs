@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartStay.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ccd902dfb0198224e3c2c6ec18fde2cfaee054a")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartStay.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartStay.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

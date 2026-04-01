@@ -17,7 +17,7 @@ public class AuthService(
     ITokenService tokenService,
     IMapper mapper) : IAuthService
 {
-    public async Task<ApiResponse<AuthResponse>> RegisterAsync(RegisterRequest request)
+    public async Task<ApiResponse<Guid>> RegisterAsync(RegisterRequest request)
     {
         if (await userRepository.ExistsByPhoneAsync(request.Phone))
             throw new ConflictException($"Phone number '{request.Phone}' is already registered.");
@@ -37,7 +37,7 @@ public class AuthService(
         await userRepository.AddAsync(user);
         await unitOfWork.CommitAsync();
 
-        return await BuildAuthResponseAsync(user, null);
+        return ApiResponse<Guid>.Ok(user.Id, "Registration successful. Please login.");
     }
 
     public async Task<ApiResponse<AuthResponse>> LoginAsync(LoginRequest request)

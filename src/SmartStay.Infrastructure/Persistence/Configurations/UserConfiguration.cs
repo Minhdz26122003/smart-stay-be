@@ -13,7 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Phone).IsRequired().HasMaxLength(20);
         builder.HasIndex(u => u.Phone).IsUnique();
         builder.Property(u => u.Email).HasMaxLength(200);
-        builder.HasIndex(u => u.Email).IsUnique().HasFilter("\"Email\" IS NOT NULL");
+        builder.HasIndex(u => u.Email).IsUnique().HasFilter("email IS NOT NULL");
         builder.Property(u => u.PasswordHash).IsRequired();
         // Store roles as a PostgreSQL text[] array column
         builder.Property(u => u.Roles)
