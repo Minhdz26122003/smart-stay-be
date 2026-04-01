@@ -14,7 +14,8 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         // Auth
-        CreateMap<User, AuthResponse>();
+        CreateMap<User, AuthResponse>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
         CreateMap<RegisterRequest, User>();
 
         // Property
@@ -53,5 +54,33 @@ public class MappingProfile : Profile
         // MeterReading
         CreateMap<MeterReading, SmartStay.Application.DTOs.MeterReading.MeterReadingDto>();
         CreateMap<SmartStay.Application.DTOs.MeterReading.CreateMeterReadingRequest, MeterReading>();
+
+        // Ticket
+        CreateMap<Ticket, SmartStay.Application.DTOs.Ticket.TicketDto>();
+        CreateMap<SmartStay.Application.DTOs.Ticket.CreateTicketRequest, Ticket>();
+
+        // Roommate
+        CreateMap<Roommate, SmartStay.Application.DTOs.Roommate.RoommateDto>();
+        CreateMap<SmartStay.Application.DTOs.Roommate.CreateRoommateRequest, Roommate>();
+
+        // Vehicle
+        CreateMap<Vehicle, SmartStay.Application.DTOs.Vehicle.VehicleDto>();
+        CreateMap<SmartStay.Application.DTOs.Vehicle.CreateVehicleRequest, Vehicle>();
+
+        // VisitorLog
+        CreateMap<VisitorLog, SmartStay.Application.DTOs.VisitorLog.VisitorLogDto>();
+        CreateMap<SmartStay.Application.DTOs.VisitorLog.CreateVisitorLogRequest, VisitorLog>();
+
+        // Listing
+        CreateMap<Listing, SmartStay.Application.DTOs.Listing.ListingDto>();
+        CreateMap<SmartStay.Application.DTOs.Listing.CreateListingRequest, Listing>();
+
+        // Announcement
+        CreateMap<Announcement, SmartStay.Application.DTOs.Announcement.AnnouncementDto>();
+        CreateMap<SmartStay.Application.DTOs.Announcement.CreateAnnouncementRequest, Announcement>();
+
+        // InventoryItem
+        CreateMap<InventoryItem, SmartStay.Application.DTOs.InventoryItem.InventoryItemDto>();
+        CreateMap<SmartStay.Application.DTOs.InventoryItem.CreateInventoryItemRequest, InventoryItem>();
     }
 }

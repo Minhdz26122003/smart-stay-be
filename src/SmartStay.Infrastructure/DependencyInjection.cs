@@ -42,6 +42,16 @@ public static class DependencyInjection
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IContractService, ContractService>();
         services.AddScoped<IInvoiceService, InvoiceService>();
+        services.AddScoped<IServiceConfigService, ServiceConfigService>();
+        services.AddScoped<IMeterReadingService, MeterReadingService>();
+        services.AddScoped<ITicketService, TicketService>();
+        services.AddScoped<IRoommateService, RoommateService>();
+        services.AddScoped<IVehicleService, VehicleService>();
+        services.AddScoped<IVisitorLogService, VisitorLogService>();
+        services.AddScoped<IListingService, ListingService>();
+        services.AddScoped<IAnnouncementService, AnnouncementService>();
+        services.AddScoped<IInventoryItemService, InventoryItemService>();
+        services.AddScoped<IStatisticsService, StatisticsService>();
 
         return services;
     }
