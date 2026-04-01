@@ -77,11 +77,12 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartStay API", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Description = "Nhập access token JWT. Swagger sẽ tự động thêm 'Bearer ' phía trước.",
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Type = SecuritySchemeType.Http, // Http type → tự động thêm "Bearer " prefix
+        Scheme = "bearer",              // lowercase "bearer" là bắt buộc với Http type
+        BearerFormat = "JWT"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -103,7 +104,13 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartStay API v1"));
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartStay API v1");
+        c.EnableFilter(); // Bật thanh tìm kiếm API ở đầu trang Swagger
+        c.DisplayRequestDuration(); // Hiển thị thời gian phản hồi
+        c.DefaultModelsExpandDepth(-1); // Ẩn bảng Schemas ở cuối trang
+    });
 }
 
 if (!app.Environment.IsDevelopment())
