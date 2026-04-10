@@ -56,4 +56,34 @@ public class AuthController(IAuthService authService) : ControllerBase
 
         return Ok(ApiResponse<object>.Ok(new { UserId = userId, Email = email, Role = role }, "Current user info retrieved."));
     }
+
+    // ─── OTP Endpoints ────────────────────────────────────────────────────────
+
+    [HttpPost("send-registration-otp")]
+    public async Task<IActionResult> SendRegistrationOtp([FromBody] SendOtpRequest request)
+    {
+        var response = await authService.SendRegistrationOtpAsync(request.Email);
+        return Ok(response);
+    }
+
+    [HttpPost("verify-registration-otp")]
+    public async Task<IActionResult> VerifyRegistrationOtp([FromBody] VerifyOtpRequest request)
+    {
+        var response = await authService.VerifyRegistrationOtpAsync(request);
+        return Ok(response);
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] SendOtpRequest request)
+    {
+        var response = await authService.SendForgotPasswordOtpAsync(request.Email);
+        return Ok(response);
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
+    {
+        var response = await authService.ResetPasswordAsync(request);
+        return Ok(response);
+    }
 }

@@ -1,0 +1,44 @@
+## Các thư mục Build (Kết quả sau khi biên dịch)
+bin/
+obj/
+
+## Thư mục của Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+## Thư mục của Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+## File cấu hình cá nhân (Rất quan trọng để bảo mật)
+appsettings.Development.json
+appsettings.Local.json
+*.usersecrets
+
+## Các gói NuGet (Dependencies)
+# Thường thì chúng ta không commit thư mục packages vì NuGet sẽ tự restore
+**/packages/*
+!**/packages/build/
+# Nếu dùng định dạng mới (PackageReference) thì không cần dòng trên, 
+# nhưng để sẵn cho các dự án cũ.
+node_modules/
+
+## Kết quả Test và Coverage
+TestResults/
+*.sequenced
+Actual/
+Expected/
+*.pyc
+docs/
+## Các file tạm của hệ điều hành
+Thumbs.db
+.DS_Store
+
+## Log files
+*.log

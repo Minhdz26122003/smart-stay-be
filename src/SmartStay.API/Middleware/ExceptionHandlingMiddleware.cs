@@ -33,6 +33,7 @@ public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<Exception
             NotFoundException e => (StatusCode: (int)HttpStatusCode.NotFound, Message: e.Message),
             UnauthorizedException e => (StatusCode: (int)HttpStatusCode.Unauthorized, Message: e.Message),
             ConflictException e => (StatusCode: (int)HttpStatusCode.Conflict, Message: e.Message),
+            BadRequestException e => (StatusCode: (int)HttpStatusCode.BadRequest, Message: e.Message),
             _ => (StatusCode: (int)HttpStatusCode.InternalServerError, Message: "An unexpected error occurred.")
         };
 

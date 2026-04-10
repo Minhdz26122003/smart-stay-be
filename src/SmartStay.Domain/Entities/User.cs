@@ -12,4 +12,5 @@ public class User : BaseEntity
     public List<string> Roles { get; set; } = new();
     public string? FcmToken { get; set; }
     public bool IsActive { get; set; } = true;
+    public bool IsEmailVerified { get; set; } = false;
 }
