@@ -27,4 +27,12 @@ public class StatisticsController(IStatisticsService statisticsService) : Contro
         var response = await statisticsService.GetFinanceSummaryAsync(landlordId, month, year);
         return Ok(response);
     }
+
+    [HttpGet("dashboard")]
+    public async Task<IActionResult> GetDashboard([FromQuery] Guid? propertyId)
+    {
+        var landlordId = GetUserId();
+        var response = await statisticsService.GetLandlordDashboardAsync(landlordId, propertyId);
+        return Ok(response);
+    }
 }

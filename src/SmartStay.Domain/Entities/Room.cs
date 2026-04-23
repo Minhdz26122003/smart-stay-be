@@ -10,6 +10,6 @@ public class Room : BaseEntity
     public string? Type { get; set; }
     public decimal BasePrice { get; set; }
     public double? AreaM2 { get; set; }
-    public RoomStatus Status { get; set; } = RoomStatus.Empty;
+    public RoomStatus Status { get; set; } = RoomStatus.Available;
     public int? MaxOccupants { get; set; }
 }

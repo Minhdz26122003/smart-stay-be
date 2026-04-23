@@ -2,7 +2,8 @@ namespace SmartStay.Domain.Enums;
 
 public enum InvoiceStatus
 {
-    Unpaid,
+    Pending,
     Paid,
-    PartiallyPaid
+    PartiallyPaid,
+    Overdue
 }

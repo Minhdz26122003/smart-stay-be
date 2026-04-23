@@ -8,4 +8,5 @@ namespace SmartStay.Application.Interfaces;
 public interface IStatisticsService
 {
     Task<ApiResponse<FinanceSummaryDto>> GetFinanceSummaryAsync(Guid landlordId, int? month, int? year);
+    Task<ApiResponse<DashboardStatsDto>> GetLandlordDashboardAsync(Guid landlordId, Guid? propertyId);
 }

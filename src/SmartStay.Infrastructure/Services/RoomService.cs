@@ -14,6 +14,11 @@ namespace SmartStay.Infrastructure.Services;
 public class RoomService(
     IRepository<Room> roomRepository,
     IRepository<Property> propertyRepository,
+    IRepository<Contract> contractRepository,
+    IRepository<User> userRepository,
+    IRepository<Invoice> invoiceRepository,
+    IRepository<InventoryItem> inventoryItemRepository,
+    IRepository<MeterReading> meterReadingRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : IRoomService
 {
@@ -54,6 +59,44 @@ public class RoomService(
             ?? throw new NotFoundException(nameof(Room), roomId);
 
         var dto = mapper.Map<RoomDto>(room);
+
+        // 1. Fetch Active Contract & Tenant
+        var contracts = await contractRepository.FindAsync(c => c.RoomId == roomId && c.Status == SmartStay.Domain.Enums.ContractStatus.Active && !c.IsDeleted);
+        var activeContract = System.Linq.Enumerable.FirstOrDefault(contracts.OrderByDescending(c => c.CreatedAt));
+
+        if (activeContract != null)
+        {
+            dto.Contract = mapper.Map<SmartStay.Application.DTOs.Contract.ContractDto>(activeContract);
+
+            var tenant = await userRepository.GetByIdAsync(activeContract.TenantId);
+            if (tenant != null)
+            {
+                dto.Tenant = new TenantDto
+                {
+                    Id = tenant.Id,
+                    FullName = tenant.FullName,
+                    Phone = tenant.Phone,
+                    Email = tenant.Email
+                };
+            }
+
+            var inventoryItems = await inventoryItemRepository.FindAsync(i => i.ContractId == activeContract.Id && !i.IsDeleted);
+            dto.InventoryItems = mapper.Map<System.Collections.Generic.List<SmartStay.Application.DTOs.InventoryItem.InventoryItemDto>>(inventoryItems);
+        }
+
+        // 2. Fetch Latest Meter Readings (Electric & Water)
+        var meterReadings = await meterReadingRepository.FindAsync(m => m.RoomId == roomId && !m.IsDeleted);
+        var latestReadings = meterReadings
+            .GroupBy(m => m.Type)
+            .Select(g => g.OrderByDescending(m => m.Year).ThenByDescending(m => m.Month).First())
+            .ToList();
+        
+        dto.LatestMeterReadings = mapper.Map<List<SmartStay.Application.DTOs.MeterReading.MeterReadingDto>>(latestReadings);
+
+        // 3. Invoices
+        var invoices = await invoiceRepository.FindAsync(i => i.RoomId == roomId && !i.IsDeleted);
+        dto.Invoices = mapper.Map<System.Collections.Generic.List<SmartStay.Application.DTOs.Invoice.InvoiceDto>>(invoices.OrderByDescending(i => i.Year).ThenByDescending(i => i.Month));
+
         return ApiResponse<RoomDto>.Ok(dto);
     }
 

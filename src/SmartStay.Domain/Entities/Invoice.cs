@@ -12,5 +12,5 @@ public class Invoice : BaseEntity
     public string BreakdownJson { get; set; } = string.Empty; // Store as JSONB in PostgreSQL
     public decimal TotalAmount { get; set; }
     public decimal PaidAmount { get; set; }
-    public InvoiceStatus Status { get; set; } = InvoiceStatus.Unpaid;
+    public InvoiceStatus Status { get; set; } = InvoiceStatus.Pending;
 }
