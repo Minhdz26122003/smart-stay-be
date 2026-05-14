@@ -56,13 +56,21 @@ public class AuthService(
 
     public async Task<ApiResponse<AuthResponse>> LoginAsync(LoginRequest request)
     {
-        User? user;
-        if (request.PhoneOrEmail.Contains('@'))
-            user = await userRepository.FindByEmailAsync(request.PhoneOrEmail);
-        else
-            user = await userRepository.FindByPhoneAsync(request.PhoneOrEmail);
+        var phoneOrEmail = request.PhoneOrEmail?.Trim() ?? string.Empty;
+        var password = request.Password?.Trim() ?? string.Empty;
 
-        if (user is null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        User? user;
+        if (phoneOrEmail.Contains('@'))
+        {
+            phoneOrEmail = phoneOrEmail.ToLowerInvariant();
+            user = await userRepository.FindByEmailAsync(phoneOrEmail);
+        }
+        else
+        {
+            user = await userRepository.FindByPhoneAsync(phoneOrEmail);
+        }
+
+        if (user is null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             throw new UnauthorizedException("Invalid credentials.");
 
         if (!user.IsActive)
