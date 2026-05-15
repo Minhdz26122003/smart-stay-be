@@ -33,7 +33,24 @@ public class ListingController(IListingService listingService) : ControllerBase
     public async Task<IActionResult> GetMyListings()
     {
         var landlordId = GetLandlordId();
-        var response = await listingService.GetListingsByLandlordAsync(landlordId);
+        var response = await listingService.GetListingsByLandlordAsync(landlordId, null);
+        return Ok(response);
+    }
+
+    [HttpGet("landlord")]
+    public async Task<IActionResult> GetLandlordListings([FromQuery] Guid? propertyId)
+    {
+        var landlordId = GetLandlordId();
+        var response = await listingService.GetListingsByLandlordAsync(landlordId, propertyId);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetListingById(Guid id)
+    {
+        var landlordId = GetLandlordId();
+        var response = await listingService.GetListingsByLandlordAsync(landlordId, propertyId);
         return Ok(response);
     }
 

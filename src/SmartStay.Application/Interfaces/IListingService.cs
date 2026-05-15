@@ -9,7 +9,7 @@ namespace SmartStay.Application.Interfaces;
 public interface IListingService
 {
     Task<ApiResponse<ListingDto>> CreateListingAsync(Guid landlordId, CreateListingRequest request);
-    Task<ApiResponse<IEnumerable<ListingDto>>> GetListingsByLandlordAsync(Guid landlordId);
+    Task<ApiResponse<IEnumerable<ListingDto>>> GetListingsByLandlordAsync(Guid landlordId, Guid? propertyId = null);
     Task<ApiResponse<ListingDto>> ToggleListingActiveAsync(Guid landlordId, Guid listingId);
     Task<ApiResponse<bool>> DeleteListingAsync(Guid landlordId, Guid listingId);
 }

@@ -72,7 +72,6 @@ public class MappingProfile : Profile
         CreateMap<SmartStay.Application.DTOs.VisitorLog.CreateVisitorLogRequest, VisitorLog>();
 
         // Listing
-        CreateMap<Listing, SmartStay.Application.DTOs.Listing.ListingDto>();
         CreateMap<SmartStay.Application.DTOs.Listing.CreateListingRequest, Listing>();
 
         // Announcement
