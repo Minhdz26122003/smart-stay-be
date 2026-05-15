@@ -16,6 +16,7 @@ public class TicketService(
     IRepository<Ticket> ticketRepository,
     IRepository<Room> roomRepository,
     IRepository<Property> propertyRepository,
+    IRepository<User> userRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : ITicketService
 {
@@ -49,8 +50,19 @@ public class TicketService(
         var roomIds = rooms.Select(r => r.Id).ToList();
 
         var tickets = await ticketRepository.FindAsync(t => roomIds.Contains(t.RoomId));
-        var dtos = mapper.Map<IEnumerable<TicketDto>>(tickets.OrderByDescending(t => t.CreatedAt));
         
+        // Fetch tenants info
+        var tenantIds = tickets.Select(t => t.TenantId).Distinct().ToList();
+        var users = await userRepository.FindAsync(u => tenantIds.Contains(u.Id));
+
+        var dtos = mapper.Map<IEnumerable<TicketDto>>(tickets.OrderByDescending(t => t.CreatedAt)).ToList();
+        
+        foreach (var dto in dtos)
+        {
+            dto.RoomName = rooms.FirstOrDefault(r => r.Id == dto.RoomId)?.Name;
+            dto.TenantName = users.FirstOrDefault(u => u.Id == dto.TenantId)?.FullName;
+        }
+
         return ApiResponse<IEnumerable<TicketDto>>.Ok(dtos);
     }
 

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SmartStay.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f652795cf3cfa84325ff9ef14f2cf1e51747a2c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3f8e55575441753f6adde6ce9c3269cafee0ca0")]
 [assembly: System.Reflection.AssemblyProductAttribute("SmartStay.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SmartStay.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -8,6 +8,8 @@ public class TicketDto
 {
     public Guid Id { get; set; }
     public Guid RoomId { get; set; }
+    public string? RoomName { get; set; }  
+    public string? TenantName { get; set; } 
     public Guid TenantId { get; set; }
     public TicketCategory Category { get; set; }
     public string Title { get; set; } = string.Empty;
