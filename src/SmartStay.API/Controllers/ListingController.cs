@@ -45,15 +45,6 @@ public class ListingController(IListingService listingService) : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("{id}")]
-    [AllowAnonymous]
-    public async Task<IActionResult> GetListingById(Guid id)
-    {
-        var landlordId = GetLandlordId();
-        var response = await listingService.GetListingsByLandlordAsync(landlordId, propertyId);
-        return Ok(response);
-    }
-
     [HttpPut("{id}/toggle")]
     public async Task<IActionResult> ToggleListing(Guid id)
     {
