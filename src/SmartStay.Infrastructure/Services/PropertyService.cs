@@ -14,6 +14,8 @@ namespace SmartStay.Infrastructure.Services;
 
 public class PropertyService(
     IRepository<Property> propertyRepository,
+    IRepository<Room> roomRepository,
+    IRepository<Contract> contractRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : IPropertyService
 {
@@ -36,6 +38,19 @@ public class PropertyService(
 
         if (property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to delete this property.");
+
+        var rooms = await roomRepository.FindAsync(r => r.PropertyId == propertyId);
+        var roomIds = rooms.Select(r => r.Id).ToList();
+
+        if (roomIds.Count > 0)
+        {
+            var activeContracts = await contractRepository.FindAsync(c =>
+                roomIds.Contains(c.RoomId) &&
+                c.Status == SmartStay.Domain.Enums.ContractStatus.Active);
+
+            if (activeContracts.Any())
+                throw new BadRequestException("Khu trọ này có phòng đang có hợp đồng hiệu lực nên không thể xóa.");
+        }
 
         await propertyRepository.SoftDeleteAsync(propertyId);
         await unitOfWork.CommitAsync();

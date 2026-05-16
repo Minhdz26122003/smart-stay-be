@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SmartStay.Application.Common.Models;
@@ -46,6 +47,13 @@ public class RoomService(
         var property = await propertyRepository.GetByIdAsync(room.PropertyId);
         if (property == null || property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to delete this room.");
+
+        var activeContracts = await contractRepository.FindAsync(c =>
+            c.RoomId == roomId &&
+            c.Status == SmartStay.Domain.Enums.ContractStatus.Active);
+
+        if (activeContracts.Any())
+            throw new BadRequestException("Phòng này đang có hợp đồng hiệu lực.");
 
         await roomRepository.SoftDeleteAsync(roomId);
         await unitOfWork.CommitAsync();
