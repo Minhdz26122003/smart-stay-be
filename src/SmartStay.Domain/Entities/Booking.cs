@@ -10,4 +10,7 @@ public class Booking : BaseEntity
     public DateTime ProposedDateTime { get; set; }
     public BookingStatus Status { get; set; } = BookingStatus.Pending;
     public string? Note { get; set; }
+
+    public Listing? Listing { get; set; }
+    public User? Guest { get; set; }
 }

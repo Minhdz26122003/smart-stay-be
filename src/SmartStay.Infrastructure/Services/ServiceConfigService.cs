@@ -15,6 +15,7 @@ namespace SmartStay.Infrastructure.Services;
 public class ServiceConfigService(
     IRepository<ServiceConfig> serviceConfigRepository,
     IRepository<Property> propertyRepository,
+    IRepository<Room> roomRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : IServiceConfigService
 {
@@ -25,6 +26,21 @@ public class ServiceConfigService(
 
         if (property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to modify configurations for this property.");
+
+        if (request.UnitPrice < 0)
+            throw new BadRequestException("Unit price cannot be negative.");
+
+        if (string.IsNullOrWhiteSpace(request.Type))
+            throw new BadRequestException("Service type is required.");
+
+        if (request.RoomId.HasValue)
+        {
+            var room = await roomRepository.GetByIdAsync(request.RoomId.Value)
+                ?? throw new NotFoundException(nameof(Room), request.RoomId.Value);
+
+            if (room.PropertyId != request.PropertyId)
+                throw new BadRequestException("The selected room does not belong to the property.");
+        }
 
         var serviceConfig = mapper.Map<ServiceConfig>(request);
         await serviceConfigRepository.AddAsync(serviceConfig);
@@ -44,6 +60,9 @@ public class ServiceConfigService(
 
         if (property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to modify configurations for this property.");
+
+        if (request.UnitPrice < 0)
+            throw new BadRequestException("Unit price cannot be negative.");
 
         mapper.Map(request, config);
         serviceConfigRepository.Update(config);

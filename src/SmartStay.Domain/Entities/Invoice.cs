@@ -13,4 +13,7 @@ public class Invoice : BaseEntity
     public decimal TotalAmount { get; set; }
     public decimal PaidAmount { get; set; }
     public InvoiceStatus Status { get; set; } = InvoiceStatus.Pending;
+
+    public Room? Room { get; set; }
+    public Contract? Contract { get; set; }
 }

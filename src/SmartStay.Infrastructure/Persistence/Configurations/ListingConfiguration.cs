@@ -10,6 +10,12 @@ public class ListingConfiguration : IEntityTypeConfiguration<Listing>
     {
         builder.HasKey(l => l.Id);
         builder.Property(l => l.PhotoUrls).HasColumnType("text[]");
+        builder.Property(l => l.Description).IsRequired().HasMaxLength(4000);
+        builder.HasIndex(l => l.RoomId);
+        builder.HasOne(l => l.Room)
+            .WithMany(r => r.Listings)
+            .HasForeignKey(l => l.RoomId)
+            .OnDelete(DeleteBehavior.Restrict);
         builder.HasQueryFilter(l => !l.IsDeleted);
     }
 }

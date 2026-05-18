@@ -11,7 +11,12 @@ public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
         builder.HasKey(r => r.Id);
         builder.Property(r => r.TokenHash).IsRequired();
         builder.HasIndex(r => r.TokenHash).IsUnique();
+        builder.HasIndex(r => r.UserId);
         builder.Property(r => r.ExpiresAt).IsRequired();
+        builder.HasOne(r => r.User)
+            .WithMany(u => u.RefreshTokens)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
         builder.HasQueryFilter(r => !r.IsDeleted);
     }
 }

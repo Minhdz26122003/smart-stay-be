@@ -10,4 +10,7 @@ public class ServiceConfig : BaseEntity
     public string Type { get; set; } = string.Empty; // e.g. "Electric", "Water", "Trash"
     public decimal UnitPrice { get; set; }
     public ServiceCalcMethod CalcMethod { get; set; }
+
+    public Property? Property { get; set; }
+    public Room? Room { get; set; }
 }

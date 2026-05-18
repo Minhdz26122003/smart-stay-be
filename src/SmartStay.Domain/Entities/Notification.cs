@@ -11,4 +11,6 @@ public class Notification : BaseEntity
     public NotificationType Type { get; set; }
     public bool IsRead { get; set; }
     public string? Payload { get; set; } // JSON string
+
+    public User? User { get; set; }
 }

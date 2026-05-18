@@ -11,6 +11,7 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
     {
         builder.HasKey(p => p.Id);
         builder.Property(p => p.Name).IsRequired().HasMaxLength(200);
+        builder.Property(p => p.Rules).HasMaxLength(4000);
         builder.OwnsOne(p => p.Address, a =>
         {
             a.Property(x => x.Street).HasColumnName("address_street").HasMaxLength(200);
@@ -19,6 +20,11 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
             a.Property(x => x.City).HasColumnName("address_city").HasMaxLength(100);
         });
         builder.Property(p => p.SharedAmenities).HasColumnType("text[]");
+        builder.HasIndex(p => p.LandlordId);
+        builder.HasOne(p => p.Landlord)
+            .WithMany(u => u.PropertiesAsLandlord)
+            .HasForeignKey(p => p.LandlordId)
+            .OnDelete(DeleteBehavior.Restrict);
         builder.HasQueryFilter(p => !p.IsDeleted);
     }
 }

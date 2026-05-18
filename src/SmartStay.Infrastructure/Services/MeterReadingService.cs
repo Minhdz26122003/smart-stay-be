@@ -19,8 +19,28 @@ public class MeterReadingService(
     IUnitOfWork unitOfWork,
     IMapper mapper) : IMeterReadingService
 {
+    private static void ValidateMeterReading(CreateMeterReadingRequest request)
+    {
+        if (string.IsNullOrWhiteSpace(request.Type))
+            throw new BadRequestException("Meter reading type is required.");
+
+        if (request.Month is < 1 or > 12)
+            throw new BadRequestException("Meter reading month must be between 1 and 12.");
+
+        if (request.Year < 2000)
+            throw new BadRequestException("Meter reading year must be 2000 or later.");
+
+        if (request.OldUnit < 0)
+            throw new BadRequestException("Old unit cannot be negative.");
+
+        if (request.NewUnit < request.OldUnit)
+            throw new BadRequestException("New unit must be greater than or equal to old unit.");
+    }
+
     public async Task<ApiResponse<MeterReadingDto>> CreateMeterReadingAsync(Guid landlordId, CreateMeterReadingRequest request)
     {
+        ValidateMeterReading(request);
+
         var room = await roomRepository.GetByIdAsync(request.RoomId)
             ?? throw new NotFoundException(nameof(Room), request.RoomId);
 
@@ -29,6 +49,15 @@ public class MeterReadingService(
 
         if (property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to add meter reading for this room.");
+
+        var existingReadings = await meterReadingRepository.FindAsync(m => m.RoomId == request.RoomId);
+        if (existingReadings.Any(m =>
+            string.Equals(m.Type, request.Type, StringComparison.OrdinalIgnoreCase) &&
+            m.Month == request.Month &&
+            m.Year == request.Year))
+        {
+            throw new BadRequestException("A meter reading already exists for this room, type, month, and year.");
+        }
 
         var meterReading = mapper.Map<MeterReading>(request);
         await meterReadingRepository.AddAsync(meterReading);

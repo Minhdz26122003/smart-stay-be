@@ -14,4 +14,7 @@ public class Ticket : BaseEntity
     public List<string> PhotoUrls { get; set; } = new();
     public TicketStatus Status { get; set; } = TicketStatus.Pending;
     public TicketPriority Priority { get; set; } = TicketPriority.Medium;
+
+    public Room? Room { get; set; }
+    public User? Tenant { get; set; }
 }

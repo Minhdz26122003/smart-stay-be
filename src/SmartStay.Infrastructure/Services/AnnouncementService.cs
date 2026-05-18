@@ -29,6 +29,21 @@ public class AnnouncementService(
         if (property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to post announcements for this property.");
 
+        if (string.IsNullOrWhiteSpace(request.Title))
+            throw new BadRequestException("Announcement title is required.");
+
+        if (string.IsNullOrWhiteSpace(request.Content))
+            throw new BadRequestException("Announcement content is required.");
+
+        if (request.RoomId.HasValue)
+        {
+            var room = await roomRepository.GetByIdAsync(request.RoomId.Value)
+                ?? throw new NotFoundException(nameof(Room), request.RoomId.Value);
+
+            if (room.PropertyId != request.PropertyId)
+                throw new BadRequestException("The selected room does not belong to the property.");
+        }
+
         var announcement = mapper.Map<Announcement>(request);
         announcement.CreatedBy = landlordId;
 

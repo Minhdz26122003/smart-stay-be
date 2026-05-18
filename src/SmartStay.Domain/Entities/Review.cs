@@ -9,4 +9,8 @@ public class Review : BaseEntity
     public Guid ContractId { get; set; }
     public int Rating { get; set; } // 1-5
     public string? Comment { get; set; }
+
+    public User? Reviewer { get; set; }
+    public User? Reviewee { get; set; }
+    public Contract? Contract { get; set; }
 }

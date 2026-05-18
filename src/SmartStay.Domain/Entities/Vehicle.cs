@@ -9,4 +9,6 @@ public class Vehicle : BaseEntity
     public string PlateNumber { get; set; } = string.Empty;
     public VehicleType VehicleType { get; set; }
     public string? PhotoUrl { get; set; }
+
+    public User? Tenant { get; set; }
 }

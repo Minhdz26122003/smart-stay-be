@@ -11,4 +11,6 @@ public class InventoryItem : BaseEntity
     public List<string> CheckInPhotos { get; set; } = new();
     public List<string> CheckOutPhotos { get; set; } = new();
     public ItemCondition Condition { get; set; } = ItemCondition.Good;
+
+    public Contract? Contract { get; set; }
 }

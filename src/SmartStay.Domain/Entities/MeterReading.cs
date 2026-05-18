@@ -11,4 +11,6 @@ public class MeterReading : BaseEntity
     public string? PhotoUrl { get; set; }
     public int Month { get; set; }
     public int Year { get; set; }
+
+    public Room? Room { get; set; }
 }

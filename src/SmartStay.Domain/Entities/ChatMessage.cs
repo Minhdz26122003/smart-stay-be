@@ -10,4 +10,6 @@ public class ChatMessage : BaseEntity
     public string Content { get; set; } = string.Empty;
     public MessageType MessageType { get; set; } = MessageType.Text;
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
+
+    public User? Sender { get; set; }
 }

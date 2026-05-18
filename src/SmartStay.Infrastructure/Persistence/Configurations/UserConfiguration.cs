@@ -11,9 +11,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
         builder.Property(u => u.FullName).IsRequired().HasMaxLength(100);
         builder.Property(u => u.Phone).IsRequired().HasMaxLength(20);
-        builder.HasIndex(u => u.Phone).IsUnique();
+        builder.HasIndex(u => u.Phone).IsUnique().HasFilter("is_deleted = false");
         builder.Property(u => u.Email).HasMaxLength(200);
-        builder.HasIndex(u => u.Email).IsUnique().HasFilter("email IS NOT NULL");
+        builder.HasIndex(u => u.Email).IsUnique().HasFilter("is_deleted = false AND email IS NOT NULL");
         builder.Property(u => u.PasswordHash).IsRequired();
         // Store roles as a PostgreSQL text[] array column
         builder.Property(u => u.Roles)

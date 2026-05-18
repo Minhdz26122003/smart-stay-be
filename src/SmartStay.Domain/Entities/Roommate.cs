@@ -9,4 +9,6 @@ public class Roommate : BaseEntity
     public string Phone { get; set; } = string.Empty;
     public string? CccdPhotoUrl { get; set; } // Encrypted URL
     public bool IsApproved { get; set; }
+
+    public Contract? Contract { get; set; }
 }

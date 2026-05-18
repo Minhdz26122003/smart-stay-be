@@ -44,6 +44,21 @@ public class ContractController(IContractService contractService) : ControllerBa
         return Ok(response);
     }
 
+    [HttpGet("property/{propertyId}")]
+    public async Task<IActionResult> GetContractsByProperty(Guid propertyId)
+    {
+        var response = await contractService.GetContractsByPropertyAsync(propertyId);
+        return Ok(response);
+    }
+
+    [HttpGet("landlord")]
+    public async Task<IActionResult> GetContractsByLandlord()
+    {
+        var landlordId = GetUserId();
+        var response = await contractService.GetContractsByLandlordAsync(landlordId);
+        return Ok(response);
+    }
+
     [HttpGet("{id}")]
     [AllowAnonymous]
     public async Task<IActionResult> GetContractById(Guid id)

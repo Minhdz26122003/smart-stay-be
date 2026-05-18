@@ -13,5 +13,7 @@ public interface IContractService
     Task<ApiResponse<ContractDto>> GetContractByIdAsync(Guid contractId);
     Task<ApiResponse<IEnumerable<ContractDto>>> GetContractsByRoomAsync(Guid roomId);
     Task<ApiResponse<IEnumerable<ContractDto>>> GetContractsByTenantAsync(Guid tenantId);
+    Task<ApiResponse<IEnumerable<ContractDto>>> GetContractsByPropertyAsync(Guid propertyId);
+    Task<ApiResponse<IEnumerable<ContractDto>>> GetContractsByLandlordAsync(Guid landlordId);
     Task<ApiResponse<bool>> DeleteContractAsync(Guid landlordId, Guid contractId);
 }
