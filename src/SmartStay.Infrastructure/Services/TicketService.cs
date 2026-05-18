@@ -7,6 +7,7 @@ using SmartStay.Application.Common.Models;
 using SmartStay.Application.DTOs.Ticket;
 using SmartStay.Application.Interfaces;
 using SmartStay.Domain.Entities;
+using SmartStay.Domain.Enums;
 using SmartStay.Domain.Exceptions;
 using SmartStay.Domain.Interfaces;
 
@@ -24,7 +25,7 @@ public class TicketService(
     {
         var ticket = mapper.Map<Ticket>(request);
         ticket.TenantId = tenantId;
-        ticket.Status = SmartStay.Domain.Enums.TicketStatus.Pending;
+        ticket.Status = TicketStatus.Pending;
 
         await ticketRepository.AddAsync(ticket);
         await unitOfWork.CommitAsync();
@@ -68,6 +69,9 @@ public class TicketService(
 
     public async Task<ApiResponse<TicketDto>> UpdateTicketStatusAsync(Guid landlordId, Guid ticketId, UpdateTicketStatusRequest request)
     {
+        if (!Enum.IsDefined(request.Status))
+            throw new BadRequestException("Trạng thái sự cố không hợp lệ.");
+
         var ticket = await ticketRepository.GetByIdAsync(ticketId)
             ?? throw new NotFoundException(nameof(Ticket), ticketId);
 
@@ -80,11 +84,26 @@ public class TicketService(
         if (property.LandlordId != landlordId)
             throw new UnauthorizedException("You do not have permission to update this ticket.");
 
+        if (!IsValidStatusTransition(ticket.Status, request.Status))
+            throw new BadRequestException("Chỉ hỗ trợ chuyển trạng thái: Pending -> InProgress/Cancelled, InProgress -> Resolved/Cancelled.");
+
         ticket.Status = request.Status;
         ticketRepository.Update(ticket);
         await unitOfWork.CommitAsync();
 
         var dto = mapper.Map<TicketDto>(ticket);
         return ApiResponse<TicketDto>.Ok(dto, "Ticket status updated successfully.");
+    }
+
+    private static bool IsValidStatusTransition(TicketStatus currentStatus, TicketStatus nextStatus)
+    {
+        return currentStatus switch
+        {
+            TicketStatus.Pending => nextStatus is TicketStatus.InProgress or TicketStatus.Cancelled,
+            TicketStatus.InProgress => nextStatus is TicketStatus.Resolved or TicketStatus.Cancelled,
+            TicketStatus.Resolved => false,
+            TicketStatus.Cancelled => false,
+            _ => false
+        };
     }
 }

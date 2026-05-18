@@ -130,6 +130,12 @@
 | GET | /api/v1/tickets/landlord |  |
 | PUT | /api/v1/tickets/{id}/status |  |
 
+Trang thai ticket hop le:
+- `Pending`
+- `InProgress`
+- `Resolved`
+- `Cancelled`
+
 ### Vehicle
 
 | Method | Endpoint | Xac thuc |
@@ -145,4 +151,3 @@
 | POST | /api/v1/visitor-logs |  |
 | GET | /api/v1/visitor-logs/tenant |  |
 | GET | /api/v1/visitor-logs/landlord |  |
-

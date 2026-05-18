@@ -994,6 +994,22 @@
 
 ## TicketStatus
 
+Giá trị hợp lệ:
+
+- `Pending`
+- `InProgress`
+- `Resolved`
+- `Cancelled`
+
+Workflow cập nhật trạng thái:
+
+- `Pending` -> `InProgress`
+- `Pending` -> `Cancelled`
+- `InProgress` -> `Resolved`
+- `InProgress` -> `Cancelled`
+
+Các giá trị cũ `Accepted`, `Open`, `Closed` không còn hợp lệ.
+
 ## UpdateContractRequest
 
 | Thuộc tính | Kiểu dữ liệu |Nullable| Mô tả |
@@ -1051,4 +1067,3 @@
 | `status` | `TicketStatus` | Không | |
 
 ## VehicleType
-
