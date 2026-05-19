@@ -19,6 +19,7 @@ public class ContractServiceConstraintTests
             out _,
             out _,
             out _,
+            out _,
             out _);
 
         var landlordId = Guid.NewGuid();
@@ -48,6 +49,7 @@ public class ContractServiceConstraintTests
             out var contractRepository,
             out var roomRepository,
             out var propertyRepository,
+            out _,
             out _,
             out var mapper);
 
@@ -102,12 +104,14 @@ public class ContractServiceConstraintTests
         out Mock<IRepository<Contract>> contractRepository,
         out Mock<IRepository<Room>> roomRepository,
         out Mock<IRepository<Property>> propertyRepository,
+        out Mock<IRepository<User>> userRepository,
         out Mock<IUnitOfWork> unitOfWork,
         out Mock<IMapper> mapper)
     {
         contractRepository = new Mock<IRepository<Contract>>();
         roomRepository = new Mock<IRepository<Room>>();
         propertyRepository = new Mock<IRepository<Property>>();
+        userRepository = new Mock<IRepository<User>>();
         unitOfWork = new Mock<IUnitOfWork>();
         mapper = new Mock<IMapper>();
 
@@ -115,6 +119,7 @@ public class ContractServiceConstraintTests
             contractRepository.Object,
             roomRepository.Object,
             propertyRepository.Object,
+            userRepository.Object,
             unitOfWork.Object,
             mapper.Object);
     }
