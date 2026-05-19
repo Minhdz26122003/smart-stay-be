@@ -17,9 +17,61 @@ public class ContractService(
     IRepository<Contract> contractRepository,
     IRepository<Room> roomRepository,
     IRepository<Property> propertyRepository,
+    IRepository<User> userRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper) : IContractService
 {
+    private async Task<ContractDto> BuildContractDtoAsync(Contract contract)
+    {
+        var dto = mapper.Map<ContractDto>(contract);
+
+        var room = await roomRepository.GetByIdAsync(contract.RoomId);
+        if (room is not null)
+            dto.RoomName = room.Name;
+
+        var tenant = await userRepository.GetByIdAsync(contract.TenantId);
+        if (tenant is not null)
+        {
+            dto.TenantName = tenant.FullName;
+            dto.TenantPhone = tenant.Phone;
+        }
+
+        return dto;
+    }
+
+    private async Task<IEnumerable<ContractDto>> BuildContractDtosAsync(IEnumerable<Contract> contracts)
+    {
+        var contractList = contracts.ToList();
+        var dtos = mapper.Map<List<ContractDto>>(contractList);
+
+        var roomIds = contractList.Select(c => c.RoomId).Distinct().ToList();
+        var tenantIds = contractList.Select(c => c.TenantId).Distinct().ToList();
+
+        var rooms = roomIds.Count == 0
+            ? []
+            : await roomRepository.FindAsync(r => roomIds.Contains(r.Id));
+        var tenants = tenantIds.Count == 0
+            ? []
+            : await userRepository.FindAsync(u => tenantIds.Contains(u.Id));
+
+        var roomById = rooms.ToDictionary(r => r.Id);
+        var tenantById = tenants.ToDictionary(t => t.Id);
+
+        foreach (var dto in dtos)
+        {
+            if (roomById.TryGetValue(dto.RoomId, out var room))
+                dto.RoomName = room.Name;
+
+            if (tenantById.TryGetValue(dto.TenantId, out var tenant))
+            {
+                dto.TenantName = tenant.FullName;
+                dto.TenantPhone = tenant.Phone;
+            }
+        }
+
+        return dtos;
+    }
+
     private async Task VerifyLandlordOwnsRoomAsync(Guid landlordId, Guid roomId)
     {
         var room = await roomRepository.GetByIdAsync(roomId)
@@ -64,7 +116,7 @@ public class ContractService(
         await contractRepository.AddAsync(contract);
         await unitOfWork.CommitAsync();
 
-        var dto = mapper.Map<ContractDto>(contract);
+        var dto = await BuildContractDtoAsync(contract);
         return ApiResponse<ContractDto>.Ok(dto, "Contract created successfully.");
     }
 
@@ -86,21 +138,21 @@ public class ContractService(
         var contract = await contractRepository.GetByIdAsync(contractId)
             ?? throw new NotFoundException(nameof(Contract), contractId);
 
-        var dto = mapper.Map<ContractDto>(contract);
+        var dto = await BuildContractDtoAsync(contract);
         return ApiResponse<ContractDto>.Ok(dto);
     }
 
     public async Task<ApiResponse<IEnumerable<ContractDto>>> GetContractsByRoomAsync(Guid roomId)
     {
         var contracts = await contractRepository.FindAsync(c => c.RoomId == roomId);
-        var dtos = mapper.Map<IEnumerable<ContractDto>>(contracts);
+        var dtos = await BuildContractDtosAsync(contracts);
         return ApiResponse<IEnumerable<ContractDto>>.Ok(dtos);
     }
 
     public async Task<ApiResponse<IEnumerable<ContractDto>>> GetContractsByTenantAsync(Guid tenantId)
     {
         var contracts = await contractRepository.FindAsync(c => c.TenantId == tenantId);
-        var dtos = mapper.Map<IEnumerable<ContractDto>>(contracts);
+        var dtos = await BuildContractDtosAsync(contracts);
         return ApiResponse<IEnumerable<ContractDto>>.Ok(dtos);
     }
 
@@ -110,7 +162,7 @@ public class ContractService(
         var roomIds = rooms.Select(r => r.Id).ToList();
 
         var contracts = await contractRepository.FindAsync(c => roomIds.Contains(c.RoomId));
-        var dtos = mapper.Map<IEnumerable<ContractDto>>(contracts);
+        var dtos = await BuildContractDtosAsync(contracts);
         return ApiResponse<IEnumerable<ContractDto>>.Ok(dtos);
     }
 
@@ -123,7 +175,7 @@ public class ContractService(
         var roomIds = rooms.Select(r => r.Id).ToList();
 
         var contracts = await contractRepository.FindAsync(c => roomIds.Contains(c.RoomId));
-        var dtos = mapper.Map<IEnumerable<ContractDto>>(contracts);
+        var dtos = await BuildContractDtosAsync(contracts);
         return ApiResponse<IEnumerable<ContractDto>>.Ok(dtos);
     }
 
@@ -141,7 +193,7 @@ public class ContractService(
         contractRepository.Update(contract);
         await unitOfWork.CommitAsync();
 
-        var dto = mapper.Map<ContractDto>(contract);
+        var dto = await BuildContractDtoAsync(contract);
         return ApiResponse<ContractDto>.Ok(dto, "Contract updated successfully.");
     }
 }
